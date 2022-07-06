@@ -1,14 +1,15 @@
-
-import { useContext } from 'react'
-import FeedbackContext from '../context/FeedbackContext'
+import { useSelector } from "react-redux"
 
 function FeedbackStats() {
-  const { feedback } = useContext(FeedbackContext)
+  //const { feedback } = useContext(FeedbackContext)
+  //Redux:
+  const {feedback} = useSelector(state => state.feedback)
 
 // Calculate avg rating
-  let average = feedback.reduce((acc, cur) => {
-    return acc + cur.rating
-  }, 0) / feedback.length
+  // let average = feedback.reduce((acc, cur) => {
+  //   return acc + cur.rating
+  // }, 0) / feedback.length
+  let average = 10
 
   //Regular expression to remove trailing zeros
   average = average.toFixed(1).replace(/[.,]0$/, '')

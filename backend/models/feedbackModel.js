@@ -1,13 +1,18 @@
 const mongoose = require("mongoose");
 
 const feedbackSchema = mongoose.Schema({
-    rating :{
+    rating: {
         type: Number,
         required: [true, 'Please add a rating']
     },
-    message :{
+    text: {
         type: String,
         required: [true, 'Please add a feedback message']
+    },
+    deleted: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
 }, 
 {

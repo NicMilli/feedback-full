@@ -1,10 +1,12 @@
-import { useState } from "react"
-import { useContext } from "react"
-import { useEffect } from "react"
+import { useState, useContext, useEffect } from "react"
 import Card from "./shared/Card"
 import Button from "./shared/Button"
 import RatingSelect from "./RatingSelect"
 import FeedbackContext from "../context/FeedbackContext"
+import {useSelector, useDispatch} from 'react-redux'
+import {addFeedback, getFeedbacks} from '../features/feedback/feedbackSlice'
+import { toast } from "react-toastify"
+import {useNavigate} from 'react-router-dom'
 
 function FeedbackForm() {
     const [text, setText] = useState('')
@@ -12,7 +14,12 @@ function FeedbackForm() {
     const [btnDisabled, setBtnDisabled] = useState(true)
     const [message, setMessage] = useState('')
 
-    const {addFeedback, feedbackEdit, updateFeedback, editCancel} = useContext(FeedbackContext)
+    const {feedbackEdit, updateFeedback, editCancel} = useContext(FeedbackContext)
+
+    // Redux
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    //const {feedbackEdit} = useSelector(state => state.feedback)
 
     useEffect(() => {
         if(feedbackEdit.edit === true){
@@ -43,11 +50,12 @@ function FeedbackForm() {
             }
 
             if(feedbackEdit.edit){
-                updateFeedback(feedbackEdit.item.id, newFeedback)
+                updateFeedback(feedbackEdit.item._id, newFeedback)
             } else {
-            addFeedback(newFeedback)
+            dispatch(addFeedback(newFeedback))
             }
 
+            
             setText('')
             setRating(10)
             setBtnDisabled(true)
@@ -58,7 +66,7 @@ function FeedbackForm() {
         setText('')
         setRating(10)
         setBtnDisabled(true)
-        editCancel(feedbackEdit.item.id)
+        editCancel(feedbackEdit.item._id)
     }
 
   return (

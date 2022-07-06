@@ -4,6 +4,8 @@ import FeedbackList from './components/FeedbackList'
 import FeedbackStats from './components/FeedbackStats'
 import FeedbackForm from './components/FeedbackForm'
 import Header from './components/Header'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 import AboutPage from './pages/AboutPage'
 import AboutLink from './components/AboutLink'
@@ -29,10 +31,11 @@ function App() {
 
             <Route path='/about' element={<AboutPage />} />
             </Routes>
-
         </div>
     </Router>
+    <ToastContainer/>
     </FeedbackProvider>
+    
 
     )
 }

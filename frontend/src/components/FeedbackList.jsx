@@ -1,13 +1,28 @@
 import {motion, AnimatePresence} from 'framer-motion'
-import { useContext } from 'react'
 import FeedbackItem from "./FeedbackItem"
 import Spinner from './shared/Spinner'
-import FeedbackContext from '../context/FeedbackContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { getFeedbacks } from '../features/feedback/feedbackSlice'
+import { useEffect } from 'react'
+import { toast } from "react-toastify"
 
 function FeedbackList() {
-  const {feedback, isLoading} = useContext(FeedbackContext)
+  //const {feedback, isLoading} = useContext(FeedbackContext)
+  //Redux state:
+  const {feedbacks, isLoading, isError, feedback, status} = useSelector(state => state.feedback)
+console.log(feedbacks)
 
-    if(!isLoading && (!feedback || feedback.length === 0)) {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(isError) {
+        toast.error(status)
+    }
+
+    dispatch(getFeedbacks())
+}, [dispatch, isError, status, feedback])
+
+    if(!isLoading && (!feedbacks || feedbacks.length === 0)) {
         return <p>No Feedback Yet</p>
     }
 
@@ -25,14 +40,14 @@ function FeedbackList() {
 return isLoading ? (<Spinner/>) : (
 <div className='feedback-list'>
     <AnimatePresence>
-    {feedback.map((item) => (
+    {feedbacks.map((item) => (
       <motion.div 
-      key={item.id}
+      key={item._id}
       initial={{opacity: 0}}
       animate={{opacity: 1}}
       exit={{opacity: 0}}
       >
-      <FeedbackItem key={item.id} item={item} />
+      <FeedbackItem key={item._id} item={item} />
       </motion.div>
     ))}
     </AnimatePresence>
