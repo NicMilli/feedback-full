@@ -3,10 +3,9 @@ import Card from "./shared/Card"
 import Button from "./shared/Button"
 import RatingSelect from "./RatingSelect"
 import FeedbackContext from "../context/FeedbackContext"
-import {useSelector, useDispatch} from 'react-redux'
-import {addFeedback, getFeedbacks} from '../features/feedback/feedbackSlice'
+import {useDispatch} from 'react-redux'
+import {addFeedback} from '../features/feedback/feedbackSlice'
 import { toast } from "react-toastify"
-import {useNavigate} from 'react-router-dom'
 
 function FeedbackForm() {
     const [text, setText] = useState('')
@@ -18,8 +17,6 @@ function FeedbackForm() {
 
     // Redux
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-    //const {feedbackEdit} = useSelector(state => state.feedback)
 
     useEffect(() => {
         if(feedbackEdit.edit === true){
@@ -47,12 +44,15 @@ function FeedbackForm() {
             const newFeedback = {
                 text,
                 rating
+            
             }
 
             if(feedbackEdit.edit){
                 updateFeedback(feedbackEdit.item._id, newFeedback)
+                toast.success('Successfully edited feedback')
             } else {
-            dispatch(addFeedback(newFeedback))
+                dispatch(addFeedback(newFeedback))
+                toast.success('New feedback added')
             }
 
             

@@ -78,14 +78,6 @@ export const feedbackSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => initialState,
-        // editFeedback: (state, item) =>  {state.feedbackEdit = {
-        //     item.payload,
-        //     edit: true,
-        //   }},
-        //   editCancel: (state, item) =>  state.feedbackEdit = {
-        //     item,
-        //     edit: false,
-        //   },
     },
     extraReducers: (builder) => {
         builder

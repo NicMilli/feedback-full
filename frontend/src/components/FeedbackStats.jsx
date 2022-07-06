@@ -3,13 +3,16 @@ import { useSelector } from "react-redux"
 function FeedbackStats() {
   //const { feedback } = useContext(FeedbackContext)
   //Redux:
-  const {feedback} = useSelector(state => state.feedback)
+  const {feedbacks} = useSelector(state => state.feedback)
+  
+  
+    const activeFeedbacks = feedbacks.filter(function (n) { 
+       return (n.deleted !== true )})
 
 // Calculate avg rating
-  // let average = feedback.reduce((acc, cur) => {
-  //   return acc + cur.rating
-  // }, 0) / feedback.length
-  let average = 10
+  let average = activeFeedbacks.reduce((acc, cur) => {
+    return acc + cur.rating
+  }, 0) / activeFeedbacks.length
 
   //Regular expression to remove trailing zeros
   average = average.toFixed(1).replace(/[.,]0$/, '')
@@ -17,7 +20,7 @@ function FeedbackStats() {
 
   return (
     <div className='feedback-stats'>
-        <h4>{feedback.length} Reviews</h4>
+        <h4>{activeFeedbacks.length} Reviews</h4>
         <h4>Average Rating: {isNaN(average) ? 0 : average}</h4>
     </div>
   )
