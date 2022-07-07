@@ -7,6 +7,8 @@ import Header from './components/Header'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
+import Register from './pages/Register'
+import Login from './pages/Login'
 import AboutPage from './pages/AboutPage'
 import AboutLink from './components/AboutLink'
 import { FeedbackProvider } from './context/FeedbackContext'
@@ -30,6 +32,8 @@ function App() {
           ></Route>
 
             <Route path='/about' element={<AboutPage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
             </Routes>
         </div>
     </Router>

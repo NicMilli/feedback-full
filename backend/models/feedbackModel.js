@@ -9,6 +9,11 @@ const feedbackSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please add a feedback message']
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User',
+    },
     deleted: {
         type: Boolean,
         required: true,

@@ -18,7 +18,7 @@ ul {
 }
 
 .container {
-  max-width: 768px;
+  max-width: 80vw;
   margin: auto;
   padding: 0 20px;
 }
@@ -227,4 +227,70 @@ input:focus {
   .input-group input {
     width: 80%;
   }
+}
+
+.center {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+}
+
+.head ul {
+  display: flex;
+  align-items: right;
+  justify-content: center;
+  
+}
+
+.head ul li {
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+.head ul li a {
+  display: flex;
+  align-items: right;
+}
+
+.head ul li a:hover {
+  color: #777;
+}
+
+.head ul li a svg {
+  margin-right: 5px;
+}
+
+.login {
+  text-decoration: none;
+  color: #ff6a95;
+  padding-top: 50px;
+  display: inline;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.form-input {
+  margin-bottom: 10px;
+  color: #e6e6e6;
+  width: 100%;
+  background-color: #202142;
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.form-input label {
+  text-align: left;
+  display: block;
+  margin: 0 0 5px 3px;
+  text-color: #e6e6e6;
 }

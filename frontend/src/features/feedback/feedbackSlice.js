@@ -15,7 +15,8 @@ const initialState = {
 export const addFeedback = createAsyncThunk('feedback/add',
  async(feedback, thunkAPI) => {
    try {
-     return feedbackService.createFeedback(feedback)
+     const token = thunkAPI.getState().auth.user.token
+     return feedbackService.createFeedback(feedback, token)
    } catch (error) {
     const message = (error.response 
         && error.response.data && error.response.data.message) 
@@ -30,7 +31,8 @@ export const addFeedback = createAsyncThunk('feedback/add',
  export const sendUpdateFeedback = createAsyncThunk('feedback/edit',
  async({id, newText, newRating}, thunkAPI) => {
     try {
-            return await feedbackService.editFeedback(id, newText, newRating)
+        const token = thunkAPI.getState().auth.user.token
+            return await feedbackService.editFeedback(id, newText, newRating, token)
       } catch (error) {
        const message = (error.response 
            && error.response.data && error.response.data.message) 
@@ -45,8 +47,9 @@ export const addFeedback = createAsyncThunk('feedback/add',
   export const deleteFeedback = createAsyncThunk('feedback/delete',
   async(id, thunkAPI) => {
         try {
+            const token = thunkAPI.getState().auth.user.token
             if(window.confirm('Are you sure you want to permanently delete this item')){
-                return await feedbackService.deleteFeedback(id)
+                return await feedbackService.deleteFeedback(id, token)
               }
           } catch (error) {
            const message = (error.response 
@@ -92,7 +95,7 @@ export const feedbackSlice = createSlice({
         .addCase(getFeedbacks.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.status = action.payload
         })
         .addCase(addFeedback.pending, (state) => {
             state.isLoading = true
@@ -105,7 +108,7 @@ export const feedbackSlice = createSlice({
         .addCase(addFeedback.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.status = action.payload
         })
         .addCase(deleteFeedback.pending, (state) => {
             state.isLoading = true
@@ -118,7 +121,7 @@ export const feedbackSlice = createSlice({
         .addCase(deleteFeedback.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.status = action.payload
         })
         .addCase(sendUpdateFeedback.pending, (state) => {
             state.isLoading = true
@@ -131,7 +134,7 @@ export const feedbackSlice = createSlice({
         .addCase(sendUpdateFeedback.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.status = action.payload
         })
     }
 })

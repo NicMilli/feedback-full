@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
 const Feedback = require('../models/feedbackModel')
+const User = require('../models/userModel')
 
 // @desc Add feedback 
 // @route POST /api/feedback
@@ -14,22 +15,22 @@ const createFeedback = asyncHandler(async (req, res) => {
         throw new Error('Please ensure you include a rating and message')
     }
 
+     // get user with JWT id
+     const user = await User.findById(req.user.id)
+
+     if(!user) {
+         res.status(401)
+         throw new Error('User not found')
+     }
+
     // Add feedback
     const feedback = await Feedback.create({
         rating,
         text,
+        user: req.user.id,
     })
 
-    if(feedback) {
-        res.status(201).json({
-            _id: feedback._id,
-            rating: feedback.rating,
-            text: feedback.text,
-        })
-    } else {
-        res.status(400)
-        throw new Error('Unable to upload feedback')
-    }
+    res.status(201).json({feedback})
 })
 
 // @desc Get feedbacks
@@ -68,23 +69,35 @@ const getFeedbacks = asyncHandler(async (req, res) => {
 //     res.status(200).json({success: true})
 // })
 
-// @desc delete a single feedback, but reversible
+// @desc delete a single feedback, made reversible incase there is good advice/criticism for me to reference (can still edit)
 // @route PATCH /api/feedback/:_id
 // @access public (unless spam is received)
 const deleteFeedback = asyncHandler(async (req, res) => {
 
+    // get user with JWT id
+    const user = await User.findById(req.user.id)
+
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
     // find feedback
     const feedback = await Feedback.findById(req.params.id)
-    console.log(feedback)
-
+    
     if(!feedback) {
         res.status(404)
         throw new Error('Feedback not found')
     }
 
+    if(feedback.user.toString() !== req.user.id){
+        res.status(401)
+        throw new Error('Sorry, you can only delete your own feedback')
+    }
+
     const updatedFeedback = await Feedback.findByIdAndUpdate(req.params.id, req.body)
 
-    res.status(200).json(updatedFeedback)
+    res.status(200).json({updatedFeedback})
 })
 
 // @desc edit a single feedback
@@ -92,13 +105,25 @@ const deleteFeedback = asyncHandler(async (req, res) => {
 // @access public (unless spam is received)
 const editFeedback = asyncHandler(async (req, res) => {
 
+    // get user with JWT id
+    const user = await User.findById(req.user.id)
+
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
     // find feedback
     const feedback = await Feedback.findById(req.params.id)
-    console.log(feedback)
-
+    
     if(!feedback) {
         res.status(404)
         throw new Error('Feedback not found')
+    }
+
+    if(feedback.user.toString() !== req.user.id){
+        res.status(401)
+        throw new Error('Sorry, you can only edit your own feedback')
     }
 
     const updatedFeedback = await Feedback.findByIdAndUpdate(req.params.id, req.body)

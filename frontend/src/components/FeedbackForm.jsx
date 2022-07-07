@@ -3,7 +3,7 @@ import Card from "./shared/Card"
 import Button from "./shared/Button"
 import RatingSelect from "./RatingSelect"
 import FeedbackContext from "../context/FeedbackContext"
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {addFeedback} from '../features/feedback/feedbackSlice'
 import { toast } from "react-toastify"
 
@@ -14,6 +14,7 @@ function FeedbackForm() {
     const [message, setMessage] = useState('')
 
     const {feedbackEdit, updateFeedback, editCancel} = useContext(FeedbackContext)
+    const {user} = useSelector((state) => state.auth)
 
     // Redux
     const dispatch = useDispatch()
@@ -43,19 +44,24 @@ function FeedbackForm() {
         if(text.replace(/\s/g,'').length >= 10){
             const newFeedback = {
                 text,
-                rating
-            
+                rating,
             }
 
-            if(feedbackEdit.edit){
-                updateFeedback(feedbackEdit.item._id, newFeedback)
-                toast.success('Successfully edited feedback')
+            if(!user) {
+                toast.error('Please login or register first!')
+            } else if(feedbackEdit.edit){
+                const result = updateFeedback(feedbackEdit.item._id, newFeedback)
+                if(result && !result.message) {
+                    toast.success('Successfully edited feedback')
+                }
             } else {
-                dispatch(addFeedback(newFeedback))
-                toast.success('New feedback added')
+                const result = dispatch(addFeedback(newFeedback))
+                console.log(result)
+                if(result && !result.message) {
+                    toast.success('New feedback added')
+                }
             }
 
-            
             setText('')
             setRating(10)
             setBtnDisabled(true)

@@ -21,10 +21,22 @@ app.use(express.urlencoded({
 
 // Routes
 app.use('/api/feedback', require('./routes/feedbackRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Welcome, please leave constructive feedback about my projects, website or resume!'})
-})
+//Serve frontend
+if(process.env.NODE_ENV === 'production') {
+    //Set build folder as static
+    app.use(express.static(path.join(__dirname, '../frontend/build')))
+  
+  // Bug fix for Heroku servers crashing after time
+  app.get('*', (_, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
+  })
+  } else {
+    app.get('/', (req, res) => {
+      res.status(200).json({message: 'Welcome to the support desk API'})
+  })
+  }
 
 app.use(errorHandler)
 
