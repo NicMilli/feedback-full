@@ -47,7 +47,8 @@ const loginUser = asyncHandler( async(req, res) => {
     const {email} = req.body
 
     const user = await User.findOne({email})
-// Check user and passwords match
+    
+// Resolve user
     if (user) {
         res.status(200).json({
             _id: user._id,

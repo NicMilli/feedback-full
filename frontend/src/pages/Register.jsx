@@ -31,9 +31,6 @@ function Register() {
         if(isSuccess && user) {
             toast.success('Successfully registered, welcome!')
             navigate('/')
-        } else if (user) {
-            toast.error('please logout first')
-            navigate('/')
         }
 
         dispatch(reset())
