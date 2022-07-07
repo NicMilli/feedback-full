@@ -27,42 +27,40 @@ function Header({text, bgColor, textColor}) {
 
   return (
     <>
-    <div style={headerStyles}>
-        <div className='head'>
-            <h2>{text}</h2>
-           
-            {location.pathname === "/" 
-            ? <div className='about-link center'><Link to='/about'>
-                <FaQuestion size={30} />
-              </Link></div>
-            :   <div className='about-link center'>
+        <div style={headerStyles}>
+            <div className='head'>
+                <h2>{text}</h2>
+                {location.pathname === "/" 
+                ? <div className='about-link center'>
+                    <Link to='/about'>
+                        <FaQuestion size={30} />
+                    </Link>
+                  </div>
+                : <div className='about-link center'>
                     <Link to='/'>
                         <FaHome size={30} />
                     </Link>
-                </div> }
-            <div>
-            {user 
-            ? (
-                < >
-                    <button className="btn btn-secondary" onClick={onLogout}>
-                        <FaSignOutAlt/> Logout
-                    </button>
-                </>
-            ) 
-            : ( 
+                  </div> }
                 <div>
-                    <Link to='/login' className='login'>
-                        <FaSignInAlt /> Login
-                    </Link>
-                    &nbsp; &nbsp;
-                    <Link to='/register' className='login'>
-                        <FaUser /> Register
-                    </Link>
+                    {user 
+                        ? <>
+                            <button className="btn btn-secondary" onClick={onLogout}>
+                                <FaSignOutAlt/> Logout
+                            </button>
+                          </>
+                        : <div>
+                            <Link to='/login' className='login'>
+                                <FaSignInAlt /> Login
+                            </Link>
+                            &nbsp; &nbsp;
+                            <Link to='/register' className='login'>
+                                <FaUser /> Register
+                            </Link>
+                          </div>
+                        }
                 </div>
-            )}
             </div>
         </div>
-    </div>
     </>
   )
 }

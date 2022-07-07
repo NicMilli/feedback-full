@@ -32,7 +32,7 @@ function FeedbackForm() {
         if(edited){
             toast.success('Feedback edited')
         } 
-
+        
         if(added) {
             toast.success('Feedback added')
         }
@@ -91,17 +91,24 @@ function FeedbackForm() {
             <h2>Please rate your experience with my website. <br /> Any constructive criticism 
                 on my projects or resume is greatly appreciated!
             </h2>
-        <RatingSelect select={setRating} selected={rating}/>
-        <div className='input-group'>
-            <input onChange={handleTextChange} 
-            type="text" placeholder='Write a review' 
-            value={text} />
-            <Button type='submit'
-            isDisabled={btnDisabled} >Send</Button>
-            {feedbackEdit.edit ? (<button className='btn btn-primary' type='button' onClick={handleCancelEdit} >Cancel</button>) : null}
-        </div>
+            <RatingSelect select={setRating} selected={rating}/>
+            <div className='input-group'>
+                <input onChange={handleTextChange} 
+                type="text" placeholder='Write a review' 
+                value={text} />
+                <Button type='submit'
+                isDisabled={btnDisabled} >Send</Button>
+                {feedbackEdit.edit 
+                ?   (<button className='btn btn-primary' 
+                        type='button' onClick={handleCancelEdit} >
+                        Cancel
+                    </button>) 
+                : null}
+            </div>
 
-        {message ? <div className='message'>{message}</div> : null}
+            {message 
+            ? <div className='message'>{message}</div> 
+            : null}
         </form>
     </Card>
   )

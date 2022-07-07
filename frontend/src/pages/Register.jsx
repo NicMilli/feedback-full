@@ -93,12 +93,11 @@ function Register() {
                 <br />
             </form>
             <div >
-                    <Link to='/login' className="noUnder">
+                <Link to='/login' className="noUnder">
                     <FaSignInAlt/> &nbsp; Login instead
-                    </Link>
-                </div>
+                </Link>
+            </div>
         </section>
-        
     </Card>
   )
 }

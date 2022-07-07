@@ -22,18 +22,19 @@ function FeedbackItem({item}) {
 
   return (
     <>
-    {item.deleted ? null :
-    <Card >
-       <div className='num-display'>{item.rating}</div>
-        <button onClick={() => onDelete(item._id)} className="close">
-          <FaTimes color='purple'/>
-        </button>
-        <button onClick={() => onEdit(item)} className="edit">
-          <FaEdit color='purple'/>
-        </button>
-        <div className='text-display'>{item.text}</div>
-    </Card>
-    }
+      {item.deleted 
+      ? null 
+      : <Card >
+          <div className='num-display'>{item.rating}</div>
+          <button onClick={() => onDelete(item._id)} className="close">
+            <FaTimes color='purple'/>
+          </button>
+          <button onClick={() => onEdit(item)} className="edit">
+            <FaEdit color='purple'/>
+          </button>
+          <div className='text-display'>{item.text}</div>
+        </Card>
+      }
     </>
   )
 }

@@ -1,15 +1,13 @@
 import { useSelector } from "react-redux"
 
 function FeedbackStats() {
-  //const { feedback } = useContext(FeedbackContext)
   //Redux:
   const {feedbacks} = useSelector(state => state.feedback)
   
-  
-    const activeFeedbacks = feedbacks.filter(function (n) { 
-       return (n.deleted !== true )})
+  const activeFeedbacks = feedbacks.filter(function (n) { 
+    return (n.deleted !== true )})
 
-// Calculate avg rating
+  // Calculate avg rating
   let average = activeFeedbacks.reduce((acc, cur) => {
     return acc + cur.rating
   }, 0) / activeFeedbacks.length

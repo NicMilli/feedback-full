@@ -90,10 +90,10 @@ function Login() {
                 <br />
             </form>
             <div >
-                    <Link className="noUnder" to='/register'>
+                <Link className="noUnder" to='/register'>
                     <FaUser/> &nbsp; Register instead 
-                    </Link>
-                </div>
+                </Link>
+            </div>
         </section>
     </Card>
   )
