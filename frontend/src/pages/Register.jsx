@@ -23,7 +23,7 @@ function Register() {
         if(isError) {
             toast.error(status)
             if(status === 'User already exists') {
-                navigate('/')
+                navigate('/login')
             }
         }
 
