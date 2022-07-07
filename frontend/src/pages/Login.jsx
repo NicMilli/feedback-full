@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import {toast} from 'react-toastify'
-import { FaSignInAlt } from "react-icons/fa"
+import { FaSignInAlt, FaUser } from "react-icons/fa"
 import {useSelector, useDispatch} from 'react-redux'
 import { login, reset } from "../features/auth/authSlice"
 import Spinner from "../components/shared/Spinner"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Card from "../components/shared/Card"
 
 function Login() {
@@ -17,22 +17,22 @@ function Login() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const {user, isLoading, isError, isSuccess, message} = 
+    const {user, isLoading, isError, isSuccess, status} = 
     useSelector(state => state.auth)
 
     useEffect(() => {
         if(isError) {
-            toast.error(message)
+            toast.error(status)
         }
 
         //Redirect when logged in
-        if(isSuccess || user) {
+        if(isSuccess && user) {
             toast.success('Successfully logged in')
             navigate('/')
-        }
+        } 
 
         dispatch(reset())
-    }, [isError, isSuccess, user, message, navigate, dispatch])
+    }, [isError, isSuccess, user, status, navigate, dispatch])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -87,7 +87,13 @@ function Login() {
                         Submit
                     </button>
                 </div>
+                <br />
             </form>
+            <div >
+                    <Link className="noUnder" to='/register'>
+                    <FaUser/> &nbsp; Register instead 
+                    </Link>
+                </div>
         </section>
     </Card>
   )

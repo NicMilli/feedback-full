@@ -10,7 +10,6 @@ function FeedbackList() {
   //const {feedback, isLoading} = useContext(FeedbackContext)
   //Redux state:
   const {feedbacks, isLoading, isError, feedback, status} = useSelector(state => state.feedback)
-console.log(feedbacks)
 
   const dispatch = useDispatch()
 

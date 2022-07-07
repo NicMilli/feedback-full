@@ -8,7 +8,9 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     status: '',
-    //feedbackEdit: {item: {}, edit: false},
+    edited: false,
+    added: false,
+    deleted: false
 }
 
 // Add feedback to the database
@@ -104,6 +106,7 @@ export const feedbackSlice = createSlice({
             state.isLoading = false
             state.isSuccess = true
             state.feedback = action.payload
+            state.added = true
         })
         .addCase(addFeedback.rejected, (state, action) => {
             state.isLoading = false
@@ -117,6 +120,7 @@ export const feedbackSlice = createSlice({
             state.isLoading = false
             state.isSuccess = true
             state.feedback = action.payload
+            state.deleted = true
         })
         .addCase(deleteFeedback.rejected, (state, action) => {
             state.isLoading = false
@@ -130,6 +134,7 @@ export const feedbackSlice = createSlice({
             state.isLoading = false
             state.isSuccess = true
             state.feedback = action.payload
+            state.edited = true
         })
         .addCase(sendUpdateFeedback.rejected, (state, action) => {
             state.isLoading = false

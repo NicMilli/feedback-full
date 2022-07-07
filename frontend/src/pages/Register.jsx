@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {toast} from 'react-toastify'
-import { FaUser } from "react-icons/fa"
 import {useSelector, useDispatch} from 'react-redux'
 import { register, reset } from "../features/auth/authSlice"
 import Spinner from "../components/shared/Spinner"
 import Card from "../components/shared/Card"
+import { FaSignInAlt, FaUser} from 'react-icons/fa'
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -17,22 +17,27 @@ function Register() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const {user, isLoading, isSuccess, isError, message} = useSelector(state => state.auth)
-
-    console.log(user)
+    const {user, isLoading, isSuccess, isError, status} = useSelector(state => state.auth)
 
     useEffect(() => {
         if(isError) {
-            toast.error(message)
+            toast.error(status)
+            if(status === 'User already exists') {
+                navigate('/')
+            }
         }
 
         //Redirect when logged in
-        if(isSuccess || user) {
+        if(isSuccess && user) {
+            toast.success('Successfully registered, welcome!')
+            navigate('/')
+        } else if (user) {
+            toast.error('please logout first')
             navigate('/')
         }
 
         dispatch(reset())
-    }, [isError, isSuccess, user, message, navigate, dispatch])
+    }, [isError, isSuccess, user, status, navigate, dispatch])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -88,8 +93,15 @@ function Register() {
                         Submit
                     </button>
                 </div>
+                <br />
             </form>
+            <div >
+                    <Link to='/login' className="noUnder">
+                    <FaSignInAlt/> &nbsp; Login instead
+                    </Link>
+                </div>
         </section>
+        
     </Card>
   )
 }

@@ -146,7 +146,6 @@ input:focus {
 }
 
 .btn {
-  color: #fff;
   border: 0;
   border-radius: 8px;
   color: #fff;
@@ -293,4 +292,14 @@ input:focus {
   display: block;
   margin: 0 0 5px 3px;
   text-color: #e6e6e6;
+}
+
+.noUnder {
+  text-decoration: none;
+}
+.noUnder:hover{
+  color: #ff6a95;
+}
+.noUnder:active {
+  color: #ff6a95;
 }

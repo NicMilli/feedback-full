@@ -4,7 +4,7 @@ import Button from "./shared/Button"
 import RatingSelect from "./RatingSelect"
 import FeedbackContext from "../context/FeedbackContext"
 import {useDispatch, useSelector} from 'react-redux'
-import {addFeedback} from '../features/feedback/feedbackSlice'
+import {addFeedback, reset} from '../features/feedback/feedbackSlice'
 import { toast } from "react-toastify"
 
 function FeedbackForm() {
@@ -15,6 +15,7 @@ function FeedbackForm() {
 
     const {feedbackEdit, updateFeedback, editCancel} = useContext(FeedbackContext)
     const {user} = useSelector((state) => state.auth)
+    const {edited, added, deleted} = useSelector((state) => state.feedback)
 
     // Redux
     const dispatch = useDispatch()
@@ -26,6 +27,22 @@ function FeedbackForm() {
             setRating(feedbackEdit.item.rating)
         }
     }, [feedbackEdit])
+
+    useEffect(() => {
+        if(edited){
+            toast.success('Feedback edited')
+        } 
+
+        if(added) {
+            toast.success('Feedback added')
+        }
+
+        if(deleted) {
+            toast.success('Feedback deleted')
+        }
+
+        dispatch(reset())
+    }, [edited, added, deleted, dispatch])
 
     const handleTextChange = ({ target: {value} }) => {
        if(value !== '' && value.replace(/\s/g,'').length < 10) {
@@ -39,7 +56,7 @@ function FeedbackForm() {
         setText(value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
         if(text.replace(/\s/g,'').length >= 10){
             const newFeedback = {
@@ -50,16 +67,9 @@ function FeedbackForm() {
             if(!user) {
                 toast.error('Please login or register first!')
             } else if(feedbackEdit.edit){
-                const result = updateFeedback(feedbackEdit.item._id, newFeedback)
-                if(result && !result.message) {
-                    toast.success('Successfully edited feedback')
-                }
+                updateFeedback(feedbackEdit.item._id, newFeedback)
             } else {
-                const result = dispatch(addFeedback(newFeedback))
-                console.log(result)
-                if(result && !result.message) {
-                    toast.success('New feedback added')
-                }
+                dispatch(addFeedback(newFeedback))
             }
 
             setText('')
@@ -78,7 +88,9 @@ function FeedbackForm() {
   return (
     <Card>
         <form onSubmit={handleSubmit}>
-            <h2>Please leave a rating and any tips for my website and projects!</h2>
+            <h2>Please rate your experience with my website. <br /> Any constructive criticism 
+                on my projects or resume is greatly appreciated!
+            </h2>
         <RatingSelect select={setRating} selected={rating}/>
         <div className='input-group'>
             <input onChange={handleTextChange} 
