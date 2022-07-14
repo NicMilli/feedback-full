@@ -2,7 +2,7 @@
 This project is mostly copied from the course ['React Front to Back 2022'](https://www.udemy.com/course/react-front-to-back-2022/). The design is very stylish and this project was more useful to learn react hooks and component organization. I implemented my knowledge learnt in the support tickets project to add a MERN stack so that feedbacks can be stored.
 
 # [Please leave your feedback!!](https://feedback-milligan.herokuapp.com/)
-![image](https://user-images.githubusercontent.com/91165462/177615334-39d43bd5-ecfb-4983-8e0c-34245b85914c.png)
+![image](https://firebasestorage.googleapis.com/v0/b/personal-website-b4960.appspot.com/o/MERN%20Feedback.png?alt=media&token=93dda04e-d1e7-4aa1-a13f-c1f1697b1a0b)
 
 
 # 💻Technologies used:
